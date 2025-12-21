@@ -265,6 +265,21 @@
         left: auto;
         transform: translate(45%, -50%) rotate(90deg);
   }
+  .tapZone{
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 22vw;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    z-index: 60;
+  }
+  .tapPrev{ left: 0; }
+  .tapNext{ right: 0; }
+  document.querySelector(".tapPrev").addEventListener("click", () => setProject(idx - 1));
+  document.querySelector(".tapNext").addEventListener("click", () => setProject(idx + 1));
 }
   </style>
 </head>
@@ -400,5 +415,9 @@
 
     setProject(0);
   </script>
+  
+<button class="tapZone tapPrev" aria-label="Previous project"></button>
+<button class="tapZone tapNext" aria-label="Next project"></button>
+  
 </body>
 </html>
