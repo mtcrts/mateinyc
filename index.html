@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta http-equiv="Cache-Control" content="no-store" />
 
   <title>Matei Curtasu</title>
 
@@ -201,86 +200,90 @@
     }
     .links a:hover{ text-decoration: underline; }
 
-@media (max-width: 760px) {
-  :root{
-    --page-pad: clamp(18px, 5vw, 28px);
-    --frame-w: min(92vw, 760px);
-    --frame-h: calc(var(--frame-w) * 9 / 16);
-    --title-size: clamp(46px, 12vw, 96px);
-    --brace-size: clamp(52px, 13vw, 86px);
-    --stage-pad-y: 0px;
-    --edge-comp: calc(var(--title-size) * 0.45);
-    --header-h: calc(var(--name-size) * 1.2 + 6px);      
-    --footer-h: calc(var(--links-size) * 1.35 * 3);   
-  }
+    /* Tap zones: hidden on desktop */
+    .tapZone{ display: none; }
 
-  #prevBtn, #nextBtn{ display: none; }
+    @media (max-width: 760px) {
+      :root{
+        --page-pad: clamp(18px, 5vw, 28px);
+        --frame-w: min(92vw, 760px);
+        --frame-h: calc(var(--frame-w) * 9 / 16);
+        --title-size: clamp(46px, 12vw, 96px);
+        --brace-size: clamp(52px, 13vw, 86px);
+        --stage-pad-y: 0px;
+        --header-h: calc(var(--name-size) * 1.2 + 6px);
+        --footer-h: calc(var(--links-size) * 1.35 * 3);
+      }
 
-  main{ grid-template-columns: 1fr; }
+      #prevBtn, #nextBtn{ display: none; }
 
-  .stage{
-    grid-column: 1;
-    padding: 0;
-  }
+      main{ grid-template-columns: 1fr; }
 
-  .frameWrap{
-    width: var(--frame-w);
-    margin: 0 auto;
-  }
+      .stage{
+        grid-column: 1;
+        padding: 0;
+      }
 
-  .braceTop, .braceBottom{
-    display: block;
-    font-size: var(--brace-size);
-  }
+      .frameWrap{
+        width: var(--frame-w);
+        margin: 0 auto;
+      }
 
-  .braceTop{
-    top: calc(-1.30 * var(--brace-size));
-    left: calc(0.55 * var(--brace-size));
-  }
+      .braceTop, .braceBottom{
+        display: block;
+        font-size: var(--brace-size);
+      }
 
-  .braceBottom{
-    bottom: calc(-1.30 * var(--brace-size));
-    right: calc(0.55 * var(--brace-size));
-  }
+      .braceTop{
+        top: calc(-1.30 * var(--brace-size));
+        left: calc(0.55 * var(--brace-size));
+      }
 
-  .brand, .project{
-    position: fixed;
-    top: calc(50vh + (var(--header-h) - var(--footer-h)) / 2);
-    z-index: 25;
-    font-size: var(--title-size);
-    line-height: 0.9;
-    white-space: nowrap;
-    pointer-events: none;
-    will-change: transform;
-  }
+      .braceBottom{
+        bottom: calc(-1.30 * var(--brace-size));
+        right: calc(0.55 * var(--brace-size));
+      }
 
-  .brand{
+      .brand, .project{
+        position: fixed;
+        top: calc(50vh + (var(--header-h) - var(--footer-h)) / 2);
+        z-index: 25;
+        font-size: var(--title-size);
+        line-height: 0.9;
+        white-space: nowrap;
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      .brand{
         left: 0;
         right: auto;
         transform: translate(-45%, -50%) rotate(-90deg);
-  }
+      }
 
-  .project{
+      .project{
         right: 0;
         left: auto;
         transform: translate(45%, -50%) rotate(90deg);
-  }
-  .tapZone{
-    display: block;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 22vw;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    z-index: 60;
-  }
-  .tapPrev{ left: 0; }
-  .tapNext{ right: 0; }
-  document.querySelector(".tapPrev").addEventListener("click", () => setProject(idx - 1));
-  document.querySelector(".tapNext").addEventListener("click", () => setProject(idx + 1));
-}
+      }
+
+      /* Tap zones on mobile (left/right screen edges) */
+      .tapZone{
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 22vw;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        z-index: 60;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .tapPrev{ left: 0; }
+      .tapNext{ right: 0; }
+    }
   </style>
 </head>
 
@@ -326,6 +329,10 @@
     </footer>
   </div>
 
+  <!-- Mobile tap zones -->
+  <button class="tapZone tapPrev" type="button" aria-label="Previous project"></button>
+  <button class="tapZone tapNext" type="button" aria-label="Next project"></button>
+
   <script>
     const projects = [
       { brand: "NEOM",          title: "Sindalah",           type: "yt",    id: "7o_DOopdtbo" },
@@ -344,9 +351,9 @@
 
     let idx = 0;
 
-    const brandEl  = document.getElementById("brand");
+    const brandEl   = document.getElementById("brand");
     const projectEl = document.getElementById("project");
-    const playerEl = document.getElementById("player");
+    const playerEl  = document.getElementById("player");
 
     function playerSrc(p){
       if (p.type === "vimeo") {
@@ -392,18 +399,25 @@
       document.title = `Matei Curtasu - ${p.brand} - ${p.title}`;
     }
 
+    // Desktop buttons
     document.getElementById("prevBtn").addEventListener("click", () => setProject(idx - 1));
     document.getElementById("nextBtn").addEventListener("click", () => setProject(idx + 1));
 
+    // Keyboard
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") setProject(idx - 1);
       if (e.key === "ArrowRight") setProject(idx + 1);
     });
 
+    // Mobile tap zones
+    document.querySelector(".tapPrev")?.addEventListener("click", () => setProject(idx - 1));
+    document.querySelector(".tapNext")?.addEventListener("click", () => setProject(idx + 1));
+
+    // Swipe (works when swipe starts outside the iframe; iframe eats gestures)
     const stage = document.getElementById("stage");
     let startX = null;
 
-    stage.addEventListener("pointerdown", (e) => { startX = e.clientX; });
+    stage.addEventListener("pointerdown", (e) => { startX = e.clientX; }, { passive: true });
     stage.addEventListener("pointerup", (e) => {
       if (startX === null) return;
       const dx = e.clientX - startX;
@@ -411,13 +425,9 @@
       if (Math.abs(dx) < 40) return;
       if (dx > 0) setProject(idx - 1);
       else setProject(idx + 1);
-    });
+    }, { passive: true });
 
     setProject(0);
   </script>
-  
-<button class="tapZone tapPrev" aria-label="Previous project"></button>
-<button class="tapZone tapNext" aria-label="Next project"></button>
-  
 </body>
 </html>
