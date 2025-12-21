@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-store" />
 
   <title>Matei Curtasu</title>
 
@@ -11,19 +12,15 @@
   <meta name="author" content="Matei Curtasu" />
 
   <link rel="preconnect" href="https://www.youtube-nocookie.com">
-  <link rel="preconnect" href="https://player.vimeo.com">
+  <link rel="preconnect" href="https://player.vimeo.com" crossorigin>
   <link rel="preconnect" href="https://i.ytimg.com">
-
-  <!-- Optional but helps mobile: -->
-  <link rel="preload" href="fonts/SangBleuKingdom-Medium-WebXL.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/SangBleuEmpire-BoldItalic-WebXL.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
     @font-face {
       font-family: "SangBleu Kingdom";
       src:
-        url("fonts/SangBleuKingdom-Medium-WebXL.woff2") format("woff2"),
-        url("fonts/SangBleuKingdom-Medium-WebXL.woff") format("woff");
+        url("/fonts/SangBleuKingdom-Medium-WebXL.woff2") format("woff2"),
+        url("/fonts/SangBleuKingdom-Medium-WebXL.woff") format("woff");
       font-weight: 500;
       font-style: normal;
       font-display: swap;
@@ -32,8 +29,8 @@
     @font-face {
       font-family: "SangBleu Empire";
       src:
-        url("fonts/SangBleuEmpire-BoldItalic-WebXL.woff2") format("woff2"),
-        url("fonts/SangBleuEmpire-BoldItalic-WebXL.woff") format("woff");
+        url("/fonts/SangBleuEmpire-BoldItalic-WebXL.woff2") format("woff2"),
+        url("/fonts/SangBleuEmpire-BoldItalic-WebXL.woff") format("woff");
       font-weight: 700;
       font-style: italic;
       font-display: swap;
@@ -205,8 +202,19 @@
     }
     .links a:hover{ text-decoration: underline; }
 
-    /* Tap zones are hidden by default (desktop) */
-    .tapZone{ display: none; }
+    .tapZone{
+      display: none;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 22vw;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      z-index: 60;
+    }
+    .tapPrev{ left: 0; }
+    .tapNext{ right: 0; }
 
     @media (max-width: 760px) {
       :root{
@@ -221,12 +229,12 @@
       }
 
       #prevBtn, #nextBtn{ display: none; }
+
       main{ grid-template-columns: 1fr; }
 
       .stage{
         grid-column: 1;
         padding: 0;
-        touch-action: none; /* helps horizontal swipe detection */
       }
 
       .frameWrap{
@@ -272,21 +280,7 @@
         transform: translate(45%, -50%) rotate(90deg);
       }
 
-      /* Mobile nav tap zones (left/right edges) */
-      .tapZone{
-        display: block;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 22vw;
-        background: transparent;
-        border: 0;
-        padding: 0;
-        z-index: 80;
-        -webkit-tap-highlight-color: transparent;
-      }
-      .tapPrev{ left: 0; }
-      .tapNext{ right: 0; }
+      .tapZone{ display: block; }
     }
   </style>
 </head>
@@ -333,7 +327,6 @@
     </footer>
   </div>
 
-  <!-- Mobile tap zones -->
   <button class="tapZone tapPrev" aria-label="Previous project"></button>
   <button class="tapZone tapNext" aria-label="Next project"></button>
 
@@ -355,9 +348,9 @@
 
     let idx = 0;
 
-    const brandEl  = document.getElementById("brand");
+    const brandEl   = document.getElementById("brand");
     const projectEl = document.getElementById("project");
-    const playerEl = document.getElementById("player");
+    const playerEl  = document.getElementById("player");
 
     function playerSrc(p){
       if (p.type === "vimeo") {
@@ -397,47 +390,47 @@
       brandEl.textContent = p.brand;
       projectEl.textContent = p.title;
 
-      playerEl.src = "";
+      playerEl.src = "about:blank";
       playerEl.src = playerSrc(p);
 
       document.title = `Matei Curtasu - ${p.brand} - ${p.title}`;
     }
 
-    // Desktop buttons
     document.getElementById("prevBtn").addEventListener("click", () => setProject(idx - 1));
     document.getElementById("nextBtn").addEventListener("click", () => setProject(idx + 1));
 
-    // Mobile tap zones
-    const tapPrev = document.querySelector(".tapPrev");
-    const tapNext = document.querySelector(".tapNext");
-    if (tapPrev) tapPrev.addEventListener("click", () => setProject(idx - 1));
-    if (tapNext) tapNext.addEventListener("click", () => setProject(idx + 1));
-
-    // Keyboard
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") setProject(idx - 1);
       if (e.key === "ArrowRight") setProject(idx + 1);
     });
 
-    // Swipe (works when swipe starts outside the iframe)
-    const stage = document.getElementById("stage");
-    let startX = null;
+    const tapPrev = document.querySelector(".tapPrev");
+    const tapNext = document.querySelector(".tapNext");
+    tapPrev.addEventListener("click", () => setProject(idx - 1));
+    tapNext.addEventListener("click", () => setProject(idx + 1));
 
-    stage.addEventListener("touchstart", (e) => {
-      if (!e.touches || e.touches.length !== 1) return;
-      startX = e.touches[0].clientX;
-    }, { passive: true });
+    function addSwipe(el){
+      let startX = null;
 
-    stage.addEventListener("touchend", (e) => {
-      if (startX === null) return;
-      const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : null;
-      if (endX === null) { startX = null; return; }
-      const dx = endX - startX;
-      startX = null;
-      if (Math.abs(dx) < 40) return;
-      if (dx > 0) setProject(idx - 1);
-      else setProject(idx + 1);
-    }, { passive: true });
+      el.addEventListener("touchstart", (e) => {
+        if (!e.touches || e.touches.length !== 1) return;
+        startX = e.touches[0].clientX;
+      }, { passive: true });
+
+      el.addEventListener("touchend", (e) => {
+        if (startX === null) return;
+        const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
+        const dx = endX - startX;
+        startX = null;
+
+        if (Math.abs(dx) < 40) return;
+        if (dx > 0) setProject(idx - 1);
+        else setProject(idx + 1);
+      }, { passive: true });
+    }
+
+    addSwipe(tapPrev);
+    addSwipe(tapNext);
 
     setProject(0);
   </script>
