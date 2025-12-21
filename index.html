@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>Matei Curtasu</title>
+
+  <meta name="description" content="Matei Curtasu - Creative Director - Google, Nike, Mercedes-Benz, Netflix, Amazon, AT&T, CNN, Coca-Cola, P&G, Unilever, NEOM - New York, Berlin, Moscow, Copenhagen, Bucharest - Cannes Lions, D&AD, Clio, One Show, Eurobest, ADC, Effie, Webby, FWA, LIA, Red Dot - Wealth & Spirit, RXM, Serenade Studios, antoni Omnicom, Havas, Heimat TBWA, Miami Ad School" />
+  <meta name="keywords" content="Matei Curtasu, Creative Director, Google, Nike, Mercedes-Benz, Netflix, Amazon, NEOM, Cannes Lions, D&AD, Clio, One Show, Eurobest, ADC, Effie, Webby, FWA, LIA, Red Dot" />
+  <meta name="author" content="Matei Curtasu" />
+
+  <link rel="preconnect" href="https://www.youtube-nocookie.com">
+  <link rel="preconnect" href="https://player.vimeo.com">
+  <link rel="preconnect" href="https://i.ytimg.com">
+
+  <style>
+    @font-face {
+      font-family: "SangBleu Kingdom";
+      src:
+        url("./fonts/SangBleuKingdom-Medium-WebXL.woff2") format("woff2"),
+        url("./fonts/SangBleuKingdom-Medium-WebXL.woff") format("woff");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "SangBleu Empire";
+      src:
+        url("./fonts/SangBleuEmpire-BoldItalic-WebXL.woff2") format("woff2"),
+        url("./fonts/SangBleuEmpire-BoldItalic-WebXL.woff") format("woff");
+      font-weight: 700;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    :root{
+      --page-pad: clamp(26px, 4vw, 60px);
+      --side-col: clamp(140px, 14vw, 230px);
+      --frame-w: min(760px, 54vw);
+      --stage-aspect: 16 / 9;
+      --frame-h: calc(var(--frame-w) * 9 / 16);
+      --name-size: clamp(14px, 1.0vw, 18px);
+      --links-size: var(--name-size);
+      --title-size: clamp(44px, calc(var(--frame-w) * 0.105), 108px);
+      --brace-size: clamp(64px, 5.4vw, 96px);
+      --type-gutter: clamp(34px, 3vw, 64px);
+      --type-overhang: calc(var(--side-col) - var(--type-gutter));
+      --brand-lift: clamp(44px, 3.6vw, 78px);
+      --project-drop: clamp(34px, 3.0vw, 64px);
+      --stage-pad-y: clamp(54px, 5vw, 92px);
+      --footer-pad-bottom: 0px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body{
+      margin: 0;
+      background: #fff;
+      color: #000;
+      overflow: hidden;
+      font-family: "SangBleu Kingdom", Georgia, serif;
+    }
+
+    .page{
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: var(--page-pad);
+    }
+
+    header{
+      text-align: center;
+      font-size: var(--name-size);
+      letter-spacing: 0.02em;
+      margin-top: 6px;
+      user-select: none;
+    }
+
+    main{
+      display: grid;
+      grid-template-columns: var(--side-col) 1fr var(--side-col);
+      align-items: center;
+      min-height: 0;
+      position: relative;
+    }
+
+    .navBtn{
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: "SangBleu Kingdom", Georgia, serif;
+      font-size: var(--brace-size);
+      line-height: 1;
+      padding: 0;
+      user-select: none;
+      opacity: 0.95;
+      z-index: 10;
+    }
+
+    #prevBtn{ grid-column: 1; justify-self: start; }
+    #nextBtn{ grid-column: 3; justify-self: end; }
+
+    .stage{
+      grid-column: 2;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      padding: var(--stage-pad-y) 0;
+      position: relative;
+      overflow: visible;
+      touch-action: pan-y;
+    }
+
+    .frameWrap{
+      width: var(--frame-w);
+      max-width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .videoFrame{
+      width: 100%;
+      aspect-ratio: var(--stage-aspect);
+      background: #111;
+      position: relative;
+      z-index: 1;
+    }
+
+    iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .brand{
+      position: absolute;
+      top: calc(50% - (var(--frame-h) / 2) - var(--brand-lift));
+      left: 0;
+      transform: translateX(calc(-1 * var(--type-overhang)));
+
+      font-family: "SangBleu Empire", "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: var(--title-size);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .project{
+      position: absolute;
+      top: calc(50% + (var(--frame-h) / 2) + var(--project-drop) + 8px);
+      right: 0;
+      transform: translateX(var(--type-overhang)) translateY(-100%);
+
+      font-family: "SangBleu Empire", "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: var(--title-size);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .braceTop,
+    .braceBottom{
+      display: none;
+      pointer-events: none;
+      user-select: none;
+      font-family: "SangBleu Kingdom", Georgia, serif;
+      line-height: 1;
+      z-index: 30;
+      position: absolute;
+      color: #000;
+    }
+
+    footer{
+      display: flex;
+      justify-content: center;
+      padding-bottom: var(--footer-pad-bottom);
+    }
+
+    .links{
+      text-align: center;
+      font-size: var(--links-size);
+      line-height: 1.35;
+    }
+
+    .links a{
+      color: #000;
+      text-decoration: none;
+    }
+    .links a:hover{ text-decoration: underline; }
+
+@media (max-width: 760px) {
+  :root{
+    --page-pad: clamp(18px, 5vw, 28px);
+    --frame-w: min(92vw, 760px);
+    --frame-h: calc(var(--frame-w) * 9 / 16);
+    --title-size: clamp(46px, 12vw, 96px);
+    --brace-size: clamp(52px, 13vw, 86px);
+    --stage-pad-y: 0px;
+    --edge-comp: calc(var(--title-size) * 0.45);
+    --header-h: calc(var(--name-size) * 1.2 + 6px);      
+    --footer-h: calc(var(--links-size) * 1.35 * 3);   
+  }
+
+  #prevBtn, #nextBtn{ display: none; }
+
+  main{ grid-template-columns: 1fr; }
+
+  .stage{
+    grid-column: 1;
+    padding: 0;
+  }
+
+  .frameWrap{
+    width: var(--frame-w);
+    margin: 0 auto;
+  }
+
+  .braceTop, .braceBottom{
+    display: block;
+    font-size: var(--brace-size);
+  }
+
+  .braceTop{
+    top: calc(-1.30 * var(--brace-size));
+    left: calc(0.55 * var(--brace-size));
+  }
+
+  .braceBottom{
+    bottom: calc(-1.30 * var(--brace-size));
+    right: calc(0.55 * var(--brace-size));
+  }
+
+  .brand, .project{
+    position: fixed;
+    top: calc(50vh + (var(--header-h) - var(--footer-h)) / 2);
+    z-index: 25;
+    font-size: var(--title-size);
+    line-height: 0.9;
+    white-space: nowrap;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .brand{
+        left: 0;
+        right: auto;
+        transform: translate(-45%, -50%) rotate(-90deg);
+  }
+
+  .project{
+        right: 0;
+        left: auto;
+        transform: translate(45%, -50%) rotate(90deg);
+  }
+}
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header id="siteName">MATEI CURTASU</header>
+
+    <main>
+      <button class="navBtn" id="prevBtn" aria-label="Previous project">{</button>
+
+      <section class="stage" id="stage">
+        <div class="brand" id="brand">NEOM</div>
+
+        <div class="frameWrap">
+          <div class="videoFrame">
+            <iframe
+              id="player"
+              src=""
+              title="Project video"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div class="braceTop" aria-hidden="true">{</div>
+          <div class="braceBottom" aria-hidden="true">}</div>
+        </div>
+
+        <div class="project" id="project">Sindalah</div>
+      </section>
+
+      <button class="navBtn" id="nextBtn" aria-label="Next project">}</button>
+    </main>
+
+    <footer>
+      <div class="links">
+        <div><a href="https://www.linkedin.com/in/mtcrts" target="_blank" rel="noopener">linkedin</a></div>
+        <div><a href="https://www.instagram.com/asrawaspossible/" target="_blank" rel="noopener">instagram</a></div>
+        <div><a href="mailto:mtcrts@me.com">mtcrts@me.com</a></div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const projects = [
+      { brand: "NEOM",          title: "Sindalah",           type: "yt",    id: "7o_DOopdtbo" },
+      { brand: "Stefano Ricci", title: "Yacht Club",         type: "yt",    id: "JL9v9UcRhVk" },
+      { brand: "Mercedes-Benz", title: "League of Legends",  type: "yt",    id: "doFf9wulOnc" },
+      { brand: "Mercedes-Benz", title: "S-Class",            type: "yt",    id: "NNoX1kbm4Q0" },
+      { brand: "Mercedes-Benz", title: "Moncler",            type: "yt",    id: "6PUj6QWx3t4" },
+      { brand: "Mercedes-Benz", title: "M-B Files",          type: "yt",    id: "V0dGPgZC_e4" },
+      { brand: "Hornbach",      title: "Hammer",             type: "yt",    id: "YVI-2NUdbO0" },
+      { brand: "Netflix",       title: "Sky Rojo",           type: "vimeo", id: "546100826" },
+      { brand: "Google",        title: "Stadia",             type: "vimeo", id: "381297196" },
+      { brand: "adidas",        title: "World Cup",          type: "yt",    id: "sHNYVnQi-Sg" },
+      { brand: "Superliga",     title: "25/26",              type: "yt",    id: "r7VsNY2eyAk" },
+      { brand: "Havas",         title: "Canal Notes",        type: "yt",    id: "AXlgrDfUEp4" }
+    ];
+
+    let idx = 0;
+
+    const brandEl  = document.getElementById("brand");
+    const projectEl = document.getElementById("project");
+    const playerEl = document.getElementById("player");
+
+    function playerSrc(p){
+      if (p.type === "vimeo") {
+        const params = new URLSearchParams({
+          title: "0",
+          byline: "0",
+          portrait: "0",
+          badge: "0",
+          autopause: "1",
+          autoplay: "0",
+          muted: "0"
+        });
+        return `https://player.vimeo.com/video/${p.id}?${params.toString()}`;
+      }
+
+      const params = new URLSearchParams({
+        autoplay: "0",
+        playsinline: "1",
+        rel: "0",
+        modestbranding: "1",
+        controls: "0",
+        fs: "0",
+        iv_load_policy: "3"
+      });
+
+      if (location.protocol === "http:" || location.protocol === "https:") {
+        params.set("origin", location.origin);
+      }
+
+      return `https://www.youtube-nocookie.com/embed/${p.id}?${params.toString()}`;
+    }
+
+    function setProject(i){
+      idx = (i + projects.length) % projects.length;
+      const p = projects[idx];
+
+      brandEl.textContent = p.brand;
+      projectEl.textContent = p.title;
+
+      playerEl.src = "";
+      playerEl.src = playerSrc(p);
+
+      document.title = `Matei Curtasu - ${p.brand} - ${p.title}`;
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", () => setProject(idx - 1));
+    document.getElementById("nextBtn").addEventListener("click", () => setProject(idx + 1));
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") setProject(idx - 1);
+      if (e.key === "ArrowRight") setProject(idx + 1);
+    });
+
+    const stage = document.getElementById("stage");
+    let startX = null;
+
+    stage.addEventListener("pointerdown", (e) => { startX = e.clientX; });
+    stage.addEventListener("pointerup", (e) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) < 40) return;
+      if (dx > 0) setProject(idx - 1);
+      else setProject(idx + 1);
+    });
+
+    setProject(0);
+  </script>
+</body>
+</html>
